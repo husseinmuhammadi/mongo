@@ -11,6 +11,7 @@
 
     <modules>
         <module>mongo-client-simple</module>
+        <module>mongo-morphia</module>
     </modules>
 
     <properties>
