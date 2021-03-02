@@ -10,7 +10,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>console-application</artifactId>
+    <artifactId>mongo-client-simple</artifactId>
 
     <build>
         <finalName>demo</finalName>

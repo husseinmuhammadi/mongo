@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>console-application</module>
+        <module>mongo-client-simple</module>
     </modules>
 
     <properties>
