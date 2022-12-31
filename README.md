@@ -26,6 +26,7 @@ db.COLLECTION_NAME.save(document)
 
 If you don't specify _id in the document then save() method will work same as insert() method. If you specify _id then it will replace whole data of document containing _id as specified in save() method.
 
+```
 db.COLLECTION_NAME.insertOne(document)
 db.COLLECTION_NAME.insertMany([documents])
 db.COLLECTION_NAME.find()
@@ -34,7 +35,7 @@ db.COLLECTION_NAME.findOne()
 db.COLLECTION_NAME.find({<key1>:<value1>})
 db.mycol.find({ $and: [ {<key1>:<value1>}, { <key2>:<value2>} ] })
 db.mycol.find({$or: [{key1: value1}, {key2:value2}]}).pretty()
-
+```
 
 
 
@@ -49,3 +50,26 @@ _id: ObjectId(4 bytes timestamp, 3 bytes machine id, 2 bytes process id, 3 bytes
 
 
 
+## [MongoDB Create Database](https://www.javatpoint.com/mongodb-create-database)
+
+```
+use DATABASE_NAME 
+```
+If the database already exists, it will return the existing database.
+
+```
+db
+```
+Show the currently selected database
+
+
+```
+show dbs
+```
+Show the database list
+
+
+Here, your created database DATABASE_NAME is not present in the list, insert at least one document into it to display database:
+```
+db.movie.insert({"name":"javatpoint"})
+```
