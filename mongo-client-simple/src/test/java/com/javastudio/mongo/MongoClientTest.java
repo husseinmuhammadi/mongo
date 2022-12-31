@@ -10,7 +10,9 @@ import java.net.UnknownHostException;
 
 public class MongoClientTest {
 
-    private Logger logger = LoggerFactory.getLogger(MongoClientTest.class);
+    public static final String MONGODB_NAME = "db01";
+    public static final String COLLECTION_PEOPLE = "people";
+    public static final String COLLECTION_PRODUCT = "product";
 
     private static MongoClient mongoClient;
 
@@ -27,15 +29,14 @@ public class MongoClientTest {
                         .append("state", "MA")
                         .append("zip", 12345)
                 ).append("age", 42);
-        mongoClient.getDB("db01").getCollection("people").insert(person);
+        mongoClient.getDB(MONGODB_NAME).getCollection(COLLECTION_PEOPLE).insert(person);
     }
 
     @Test
     public void x() throws UnknownHostException {
-        DB database = mongoClient.getDB("db01");
-        DBCollection collection = database.getCollection("product");
+        DB database = mongoClient.getDB(MONGODB_NAME);
+        DBCollection collection = database.getCollection(COLLECTION_PRODUCT);
         DBCursor cursor = collection.find();
         DBObject object = cursor.one();
-        logger.info("{}", object.get("name"));
     }
 }
