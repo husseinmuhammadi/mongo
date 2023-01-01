@@ -1,42 +1,103 @@
 package com.javastudio.mongo;
 
 import com.mongodb.*;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.util.JSON;
+import org.bson.conversions.Bson;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-public class MongoClientTest {
+import static com.mongodb.client.model.Filters.eq;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+class MongoClientTest {
+
+    public static final String MONGODB_URI = "mongodb://localhost:27017";
     public static final String MONGODB_NAME = "db01";
     public static final String COLLECTION_PEOPLE = "people";
     public static final String COLLECTION_PRODUCT = "product";
 
-    private static MongoClient mongoClient;
+    private MongoClient mongoClient;
 
-    @BeforeClass
-    public static void beforeClass() throws Exception {
-        mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+    @BeforeEach
+    void setUp() {
+        mongoClient = new MongoClient(new MongoClientURI(MONGODB_URI));
+    }
+
+    @AfterEach
+    void tearDown() {
+        mongoClient.close();
     }
 
     @Test
-    public void whenInsertPersonToNewDatabaseAndNewCollection_thenItWillCreateDatabaseAndCollection() {
-        DBObject person = new BasicDBObject("name", "Hossein Mohammadi")
-                .append("address", new BasicDBObject("street", "123 Fake St")
-                        .append("city", "Faketon")
-                        .append("state", "MA")
-                        .append("zip", 12345)
-                ).append("age", 42);
-        mongoClient.getDB(MONGODB_NAME).getCollection(COLLECTION_PEOPLE).insert(person);
+    void whenInsertPersonToNewDatabaseAndNewCollection_thenItWillCreateDatabaseAndCollection() throws Exception {
+        mongoClient.getDB(MONGODB_NAME).getCollection(COLLECTION_PEOPLE).insert(
+                readResourceAsMongodbObject("data/person.json"));
+    }
+
+    private void deleteComputersFromMongodb() {
+        MongoDatabase database = mongoClient.getDatabase(MONGODB_NAME);
+        MongoCollection collection = database.getCollection(COLLECTION_PRODUCT);
+        Bson query = eq("productName", "Computer");
+        collection.deleteMany(query);
+    }
+    private void deleteLaptopsFromMongodb() {
+        MongoDatabase database = mongoClient.getDatabase(MONGODB_NAME);
+        MongoCollection collection = database.getCollection(COLLECTION_PRODUCT);
+        Bson query = eq("productName", "Laptop");
+        collection.deleteMany(query);
     }
 
     @Test
-    public void x() throws UnknownHostException {
-        DB database = mongoClient.getDB(MONGODB_NAME);
-        DBCollection collection = database.getCollection(COLLECTION_PRODUCT);
-        DBCursor cursor = collection.find();
+    void shouldFindTheProduct_whenSearchByGivenQuery() throws Exception {
+
+        deleteComputersFromMongodb();
+        deleteLaptopsFromMongodb();
+
+        final DB mongoDb = mongoClient.getDB(MONGODB_NAME);
+        final DBCollection collection = mongoDb.getCollection(COLLECTION_PRODUCT);
+
+        collection.insert(readResourceAsMongodbList("data/products.json"));
+
+        DBCursor cursor = collection.find(readResourceAsMongodbObject("query/product-laptop.json"));
         DBObject object = cursor.one();
+
+        assertEquals("Laptop", object.get("productName"));
+
+        assertEquals(
+                1,
+                collection.find(readResourceAsMongodbObject("query/product-computer.json")).count()
+        );
+
+        assertEquals(
+                2,
+                collection.find(readResourceAsMongodbObject("query/product-type-computer-and-devices.json")).count()
+        );
+    }
+
+    private BasicDBObject[] readResourceAsMongodbList(final String resourceName) throws URISyntaxException, IOException {
+        Object o = JSON.parse(readJsonResource(resourceName, StandardCharsets.UTF_8));
+        return ((BasicDBList) o).toArray(new BasicDBObject[0]);
+    }
+
+    private DBObject readResourceAsMongodbObject(final String resourceName) throws URISyntaxException, IOException {
+        Object o = JSON.parse(readJsonResource(resourceName, StandardCharsets.UTF_8));
+        return (DBObject) o;
+    }
+
+    private String readJsonResource(final String resourceName, final Charset cs) throws URISyntaxException, IOException {
+        return Files.readString(
+                Paths.get(this.getClass().getClassLoader().getResource(resourceName).toURI()),
+                cs
+        );
     }
 }

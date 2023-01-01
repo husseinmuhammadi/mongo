@@ -12,6 +12,7 @@
     <modules>
         <module>mongo-client-simple</module>
         <module>mongo-morphia</module>
+        <module>json-processing</module>
     </modules>
 
     <properties>
@@ -51,13 +52,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
@@ -159,12 +153,6 @@
     </build>
 
     <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

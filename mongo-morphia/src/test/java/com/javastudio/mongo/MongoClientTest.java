@@ -1,16 +1,16 @@
 package com.javastudio.mongo;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MongoClientTest {
+class MongoClientTest {
 
     private Logger logger = LoggerFactory.getLogger(MongoClientTest.class);
 
     @Test
-    public void x() {
-        Person person=new Person();
+    void x() {
+        Person person = new Person();
         person.setName("Hossein1");
         MongoDatastore.INSTANCE.get().save(person);
     }

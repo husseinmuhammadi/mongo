@@ -1,0 +1,10 @@
+{
+  "name": "Hossein Mohammadi",
+  "address": {
+    "street": "123 Fake St",
+    "city": "Faketon",
+    "state": "MA",
+    "zip": 12345
+  },
+  "age": 42
+}
