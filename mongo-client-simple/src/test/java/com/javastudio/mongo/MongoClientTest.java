@@ -4,11 +4,13 @@ import com.mongodb.*;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
+import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.print.Doc;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
@@ -46,13 +48,14 @@ class MongoClientTest {
 
     private void deleteComputersFromMongodb() {
         MongoDatabase database = mongoClient.getDatabase(MONGODB_NAME);
-        MongoCollection collection = database.getCollection(COLLECTION_PRODUCT);
+        MongoCollection<Document> collection = database.getCollection(COLLECTION_PRODUCT);
         Bson query = eq("productName", "Computer");
         collection.deleteMany(query);
     }
+
     private void deleteLaptopsFromMongodb() {
         MongoDatabase database = mongoClient.getDatabase(MONGODB_NAME);
-        MongoCollection collection = database.getCollection(COLLECTION_PRODUCT);
+        MongoCollection<Document> collection = database.getCollection(COLLECTION_PRODUCT);
         Bson query = eq("productName", "Laptop");
         collection.deleteMany(query);
     }
