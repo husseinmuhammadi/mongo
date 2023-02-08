@@ -1,4 +1,4 @@
-package com.javastudio;
+package com.javastudio.mongo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
