@@ -1,4 +1,4 @@
-package com.javastudio;
+package com.javastudio.mongo;
 
 class ApplicationTest {
 }
