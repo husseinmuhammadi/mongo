@@ -13,7 +13,7 @@
     <artifactId>mongo-client-simple</artifactId>
 
     <properties>
-        <main-class>com.javastudio.Application</main-class>
+        <main-class>com.javastudio.mongo.Application</main-class>
     </properties>
 
     <build>
