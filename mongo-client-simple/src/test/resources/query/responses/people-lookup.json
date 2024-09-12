@@ -1,0 +1,17 @@
+{
+  "_id": {
+    "$oid": "63f31a241f1bfa73556808e0"
+  },
+  "id": 1,
+  "firstName": "Hossein",
+  "lastName": "Mohammadi",
+  "result": [
+    {
+      "_id": {
+        "$oid": "63f31a241f1bfa73556808e2"
+      },
+      "employeeId": 1,
+      "personId": 1
+    }
+  ]
+}

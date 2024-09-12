@@ -10,13 +10,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.print.Doc;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,7 +43,7 @@ class MongoClientTest {
     @Test
     void whenInsertPersonToNewDatabaseAndNewCollection_thenItWillCreateDatabaseAndCollection() throws Exception {
         mongoClient.getDB(MONGODB_NAME).getCollection(COLLECTION_PEOPLE).insert(
-                readResourceAsMongodbObject("data/person.json"));
+                readResourceAsMongodbObject("data/db01/person-with-addresses.json"));
     }
 
     private void deleteComputersFromMongodb() {
@@ -102,5 +102,32 @@ class MongoClientTest {
                 Paths.get(this.getClass().getClassLoader().getResource(resourceName).toURI()),
                 cs
         );
+    }
+
+    @Test
+    void removeAll()throws Exception{
+        final DB db = mongoClient.getDB(MONGODB_NAME);
+        db.getCollection("people").remove((DBObject) JSON.parse("{}"));
+        db.getCollection("employees").remove((DBObject) JSON.parse("{}"));
+    }
+
+    @Test
+    void lookup() throws Exception {
+        final DB db = mongoClient.getDB(MONGODB_NAME);
+        db.getCollection("people").remove(readResourceAsMongodbObject("query/people-remove.json"));
+        db.getCollection("people").insert(
+                readResourceAsMongodbList("data/people.json")
+        );
+        db.getCollection("employees").insert(
+                readResourceAsMongodbList("data/employees.json")
+        );
+
+        Cursor cursor = db.getCollection("people").aggregate(
+                List.of(readResourceAsMongodbObject("query/people-lookup.json")), AggregationOptions.builder().build()
+        );
+
+        System.out.println("---".repeat(24));
+        System.out.println(cursor.next());
+        System.out.println("---".repeat(24));
     }
 }

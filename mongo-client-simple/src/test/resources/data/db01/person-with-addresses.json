@@ -1,0 +1,18 @@
+{
+  "firstName": "Hossein",
+  "lastName": "Mohammadi",
+  "addresses": [
+    {
+      "residence": "Amstelveen",
+      "street": "Westduinen",
+      "houseNumaber": "29",
+      "postalCode": "1187 JE"
+    },
+    {
+      "residence": "London",
+      "street": "Westduinen",
+      "houseNumaber": "20",
+      "postalCode": "1458 HE"
+    }
+  ]
+}

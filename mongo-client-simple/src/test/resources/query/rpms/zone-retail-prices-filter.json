@@ -1,0 +1,13 @@
+{
+  $and: [
+    {
+      "storeGroup._id": "2122"
+    },
+    {
+      "priceZone._id": "6"
+    },
+    {
+      "price": 1.39
+    }
+  ]
+}

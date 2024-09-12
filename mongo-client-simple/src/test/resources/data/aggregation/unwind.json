@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Shirt",
+    "sizes": ["S", "L"]
+  },
+  {
+    "name": "pant",
+    "sizes": ["M", "L", "XL"]
+  }
+]

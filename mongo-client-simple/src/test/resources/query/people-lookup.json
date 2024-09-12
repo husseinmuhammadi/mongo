@@ -1,0 +1,8 @@
+{
+  $lookup: {
+    from: "employees",
+    localField: "id",
+    foreignField: "personId",
+    as: "result"
+  }
+}

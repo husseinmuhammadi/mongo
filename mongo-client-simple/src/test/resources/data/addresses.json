@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "residence": "Amstelveen",
+    "street": "Westduinen",
+    "houseNumber": "29",
+    "postalCode": "1187JE",
+
+  },
+  {
+    "id": 2,
+    "residence": "Amstelveen",
+    "street": "Boogschutter",
+    "houseNumber": "20",
+    "postalCode": "1188BS"
+  },
+  {
+    "id": 3,
+    "residence": "Amstelveen",
+    "street": "Westduinen",
+    "houseNumber": "31",
+    "postalCode": "1187JE"
+  }
+]
